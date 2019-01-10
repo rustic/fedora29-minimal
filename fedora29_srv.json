@@ -1,0 +1,56 @@
+{
+    "builders": [
+        {
+            "type": "virtualbox-iso",
+            "guest_os_type": "Fedora_64",
+            "iso_url": "https://ewr.edge.kernel.org/fedora-buffet/fedora/linux/releases/29/Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-29-1.2.iso",
+            "iso_checksum": "6554404b66d38b89693232966d9290ed62156e32d1edde4074b1d25c97a7b10e",
+            "iso_checksum_type": "sha256",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_wait_timeout": "10000s",
+            "http_directory": ".",
+            "vm_name": "packer-fedora-29-x86_64",
+            "shutdown_command": "sudo systemctl poweroff",
+            "boot_command": [
+                "<tab> linux text biosdevname=0 ks=http://{{ .HTTPIP }}:{{ .HTTPPort}}/fedora-ks.cfg<enter><enter>"
+              ],
+            "vboxmanage": [
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--memory",
+                    "2048"
+                ],
+                [
+                    "modifyvm",
+                    "{{.Name}}",
+                    "--cpus",
+                    "2"
+                ]
+            ]
+        }
+    ],
+    "variables": {
+        "cloud_token": "{{ env `ATLAS_TOKEN` }}",
+        "vcloud_username": "rustic",
+        "vcloud_name": "fedora29-minimal",
+        "version": "1.0.{{timestamp}}"
+      },
+      "post-processors": [
+        [
+          {
+            "type": "vagrant",
+            "vagrantfile_template": "vagrantfile.tpl",
+            "output": "fedora29_{{.Provider}}.box"
+          },
+          {
+            "type": "vagrant-cloud",
+            "box_tag": "rustic/fedora29-minimal",
+            "access_token": "{{user `cloud_token`}}",
+            "version_description": "This is a minimal install of Fedora 29. Make sure you have the vbguest plugin installed with `vagrant plugin install vagrant-vbguest` From: [{{user `vcloud_username`}}/{{user `vcloud_name`}}](https://github.com/{{user `vcloud_username`}}/{{user `vcloud_name`}})",
+            "version": "{{user `version`}}"
+          }
+        ]
+      ]
+}

@@ -1,0 +1,8 @@
+# Cache objects
+packer_cache/
+packer
+setenv.sh
+
+# For built boxes
+*.box
+
