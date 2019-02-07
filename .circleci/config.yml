@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: symbols-worldwide/docker-packer-virtualbox
+      - image: symbols/packer-virtualbox
 
     working_directory: ~/repo
 
@@ -13,3 +13,4 @@ jobs:
           name: build image
           command: |
             packer build fedora29_srv.json
+            
