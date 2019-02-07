@@ -10,7 +10,11 @@ jobs:
       - checkout
 
       - run:
+          name: fix vbox driver
+          command: |
+            /sbin/vboxconfig
+
+      - run:
           name: build image
           command: |
             packer build fedora29_srv.json
-            
