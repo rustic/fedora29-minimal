@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: hashicorp/packer:light
+      - image: symbols-worldwide/docker-packer-virtualbox
 
     working_directory: ~/repo
 
@@ -10,6 +10,6 @@ jobs:
       - checkout
 
       - run:
-          name: install dependencies
+          name: build image
           command: |
             packer build fedora29_srv.json
