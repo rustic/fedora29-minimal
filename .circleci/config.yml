@@ -12,4 +12,4 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            packer -v
+            packer push -name=rustic/fedora29-minimal fedora29_srv.json
