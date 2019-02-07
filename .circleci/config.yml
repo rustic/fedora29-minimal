@@ -2,17 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: symbols/packer-virtualbox
+      - image: rustic/packer-virtualbox
 
     working_directory: ~/repo
 
     steps:
       - checkout
-
-      - run:
-          name: fix vbox driver
-          command: |
-            /sbin/vboxconfig
 
       - run:
           name: build image
